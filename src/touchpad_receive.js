@@ -1,36 +1,56 @@
-import "smartcontroller"
+import "smartcontroller";
 
-    var canvas = document.getElementById("coordinateCanvas")
-    var ctx = canvas.getContext("2d");
-    
-    var colours = ["red", "yellow", "green", "blue", "orange"]
-    const simplePeer = new smartcontroller.TouchPadSmartController('123456');
-    simplePeer.createQrCode('https://emmapoliakova.github.io/webpack-test/touchpad.html', 'qrcode');
-    
-    simplePeer.on("connection", function(data){
+//** A simple browser side demo showing how to create a smartcontroller touchpad object and access fields from each connected controller. */
 
-        processData();
-    })
+//a canvas to draw a ball for each finger of each player
+var canvas = document.getElementById("coordinateCanvas");
+var ctx = canvas.getContext("2d");
+var colours = ["red", "yellow", "green", "blue", "orange"]; // use colours to distinguish between players
 
-    function processData(){
-        var i = 0
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+//create an instance of TouchpadSmartController, optionally specify a peer ID for the PC browser peer
+const simplePeer = new smartcontroller.TouchPadSmartController("123456");
 
-        for (var key in simplePeer.touchpadList){
+//create and display a QR code for the smartphones, specify url for the controller, div element for the code to be displayed, optionally size and a player ID
+//this url is an official Touchpad compatible with the TouchPadSmartController class
+simplePeer.createQrCode(
+  "https://smartcontrollerjs.github.io/Controllers/touchpad.html",
+  "qrcode",
+  150,
+  150
+);
 
-            var touchpad = simplePeer.touchpadList[key]
-            ctx.fillStyle = colours[i];
-            i +=1;
+//listen for a new connection and log it in the console
+simplePeer.on("connection", function (data) {
+  console.log(data);
+});
 
-            if (touchpad.isActive){  
-                for (var key in touchpad.state){
-                    var finger = touchpad.state[key];       
-                    ctx.beginPath();
-                    ctx.arc(finger[0]*1000, finger[1]*700, 10, 0, 2 * Math.PI);
-                    ctx.stroke();
-                    ctx.fill(); 
-                }
-            }
-        }
-        requestAnimationFrame(processData);
+//run an update function to continuously process the data from the phone
+processData();
+
+//a function that loops over the connected touchpads and lets each player move balls on the screen
+function processData() {
+  var i = 0;
+  //clear canvas for a new frame
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (var key in simplePeer.controllerList) {
+    //store the controller to access its fields
+    var touchpad = simplePeer.controllerList[key];
+    //select a colour to draw the circles
+    ctx.fillStyle = colours[i];
+    i += 1;
+    //check if the touchpad is being used
+    if (touchpad.isActive) {
+      //iterate over the list of coordinate pairs
+      for (var key in touchpad.state) {
+        //for each pair scale the coordinates to the browser canvas size and draw a ball
+        var finger = touchpad.state[key];
+        ctx.beginPath();
+        ctx.arc(finger[0] * 1000, finger[1] * 700, 10, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+      }
     }
+  }
+  requestAnimationFrame(processData);
+}
