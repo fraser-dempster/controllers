@@ -3,11 +3,8 @@ import "smartcontroller";
 //** A simple browser side demo showing how to create a smartcontroller Nes object and access fields from each connected controller. */
 
 //create an instance of NesSmartController, optionally specify a peer ID for the PC browser peer
-//first connected is true by default, onle the first player to connect to a specific player ID will be allowed to keep it, the rest of the connections to the same ID won't be allowed
-const simplePeer = new smartcontroller.NesSmartController(
-  "123456789",
-  (firstConnected = true)
-);
+//firstconnected is true by default, only the first player to connect to a specific player ID will be allowed to keep it, the rest of the connections to the same ID won't be allowed
+const simplePeer = new smartcontroller.NesSmartController("123456789");
 
 //create and display a QR code for the smartphones, specify url for the controller, div element for the code to be displayed,
 //optionally size and a player ID, in this case the player ID is set to 1
