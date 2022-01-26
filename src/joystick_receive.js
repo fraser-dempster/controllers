@@ -5,10 +5,10 @@ import "smartcontroller";
 //a canvas to draw a ball for each player
 var canvas = document.getElementById("coordinateCanvas");
 var ctx = canvas.getContext("2d");
-ctx.fillStyle = "red";
 
 //a coordinates dictionary to keep track of the current position of each player
 var coordinates = {};
+var colours = ["red", "blue", "yellow", "green"];
 
 //create an instance of JoystickSmartController, optionally specify a peer ID for the PC browser peer
 const simplePeer = new smartcontroller.JoystickSmartController("123456");
@@ -24,7 +24,7 @@ simplePeer.createQrCode(
 
 //listen for new connections and add the new player id to the coordinates dictionary staring at 100, 100
 simplePeer.on("connection", function (data) {
-  coordinates[data.peer] = { x: 100, y: 100 }; //data.peer is a peer id of the connected smartphone, used to identify a user and acces the correct coordinates
+  coordinates[data.peer] = { x: 700, y: 400 }; //data.peer is a peer id of the connected smartphone, used to identify a user and acces the correct coordinates
 });
 
 //run an update function to continuously process the data from the phone
@@ -34,16 +34,21 @@ processData();
 function processData() {
   //clear canvas for a new frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  var i = 0;
   //loop over the controller list
   for (var key in simplePeer.controllerList) {
     var joystick = simplePeer.controllerList[key];
+
     //check if the joystick is being used
     if (joystick.isActive) {
+      console.log(simplePeer.controllerList);
       //use the peer id to access the matching coordinate pair and add position change to the current player position
       coordinates[joystick.peer.peer].x += joystick.positionChange.x;
       coordinates[joystick.peer.peer].y += joystick.positionChange.y;
 
       //draw a ball for the new position
+      ctx.fillStyle = colours[i];
+      i += 1;
       ctx.beginPath();
       ctx.arc(
         coordinates[joystick.peer.peer].x,

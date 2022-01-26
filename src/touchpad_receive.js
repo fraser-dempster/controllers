@@ -8,7 +8,7 @@ var ctx = canvas.getContext("2d");
 var colours = ["red", "yellow", "green", "blue", "orange"]; // use colours to distinguish between players
 
 //create an instance of TouchpadSmartController, optionally specify a peer ID for the PC browser peer
-const simplePeer = new smartcontroller.TouchPadSmartController("123456");
+const simplePeer = new smartcontroller.TouchPadSmartController();
 
 //create and display a QR code for the smartphones, specify url for the controller, div element for the code to be displayed, optionally size and a player ID
 //this url is an official Touchpad compatible with the TouchPadSmartController class
@@ -18,11 +18,6 @@ simplePeer.createQrCode(
   150,
   150
 );
-
-//listen for a new connection and log it in the console
-simplePeer.on("connection", function (data) {
-  console.log(data);
-});
 
 //run an update function to continuously process the data from the phone
 processData();
@@ -46,7 +41,13 @@ function processData() {
         //for each pair scale the coordinates to the browser canvas size and draw a ball
         var finger = touchpad.state[key];
         ctx.beginPath();
-        ctx.arc(finger[0] * 1000, finger[1] * 700, 10, 0, 2 * Math.PI);
+        ctx.arc(
+          finger[0] * canvas.width,
+          finger[1] * canvas.height,
+          10,
+          0,
+          2 * Math.PI
+        );
         ctx.stroke();
         ctx.fill();
       }
