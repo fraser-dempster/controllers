@@ -28,9 +28,10 @@ function processData() {
   //clear canvas for a new frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (var key in simplePeer.controllerList) {
+  //loop over the stored controllers
+  for (var player in simplePeer.controllerList) {
     //store the controller to access its fields
-    var touchpad = simplePeer.controllerList[key];
+    var touchpad = simplePeer.controllerList[player];
     //select a colour to draw the circles
     ctx.fillStyle = colours[i];
     i += 1;
