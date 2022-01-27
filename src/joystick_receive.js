@@ -41,7 +41,7 @@ function processData() {
 
     //check if the joystick is being used
     if (joystick.isActive) {
-      console.log(simplePeer.controllerList);
+      console.log(joystick.ping);
       //use the peer id to access the matching coordinate pair and add position change to the current player position
       coordinates[joystick.peer.peer].x += joystick.positionChange.x;
       coordinates[joystick.peer.peer].y += joystick.positionChange.y;
