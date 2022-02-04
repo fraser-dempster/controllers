@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/smartcontroller@3.1.0/dist/smartcontroller.min.js"></script>
+</head>
+<body>
+<script>
+    var phone = new smartcontroller.SmartPhoneController();
+    window.addEventListener("devicemotion", function(event) {
+        var message = {accelerometer:{"acc": event.acceleration, "rot": event.rotationRate}};
+        phone.sendMessage(message);
+    }, true);
+
+</script>
+
+</body>
+</html>
