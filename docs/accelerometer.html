@@ -4,20 +4,21 @@
     <script src="https://unpkg.com/smartcontroller@3.1.0/dist/smartcontroller.min.js"></script>
 </head>
 <body>
-    <p id="myP">This is a p element.</p>
-
-    <div id="myDIV">This is a div element.</div>
+    <p id="x">This is a p element.</p>
+    <div id="y">This is a div element.</div>
+    <div id="z">This is a div element.</div>
 <script>
     var phone = new smartcontroller.SmartPhoneController();
-    window.addEventListener("devicemotion", function(event) {
+    window.addEventListener("deviceorientation", function(event) {
         var x = Math.floor(Math.random() * 256);
         var y = Math.floor(Math.random() * 256);
         var z = Math.floor(Math.random() * 256);
         var bgColor = "rgb(" + x + "," + y + "," + z + ")";
         //document.body.style.backgroundColor = bgColor;
-        var message = {accelerometer:{"acc": event.acceleration, "rot": event.rotationRate}};
-        document.getElementById("myP").innerHTML = event.acceleration;
-        document.getElementById("myDIV").innerHTML = event.rotationRate;    
+        var message = {accelerometer:{"x":event.alpha, "y": event.beta, "z":event.gamma}};
+        document.getElementById("x").innerHTML = event.alpha;
+        document.getElementById("y").innerHTML = event.beta;   
+        document.getElementById("z").innerHTML = event.gamma;   
         phone.sendMessage(message);
     }, true);
 
