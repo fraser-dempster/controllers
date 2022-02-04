@@ -4,6 +4,9 @@
     <script src="https://unpkg.com/smartcontroller@3.1.0/dist/smartcontroller.min.js"></script>
 </head>
 <body>
+    <p id="myP">This is a p element.</p>
+
+    <div id="myDIV">This is a div element.</div>
 <script>
     var phone = new smartcontroller.SmartPhoneController();
     window.addEventListener("devicemotion", function(event) {
@@ -11,8 +14,10 @@
         var y = Math.floor(Math.random() * 256);
         var z = Math.floor(Math.random() * 256);
         var bgColor = "rgb(" + x + "," + y + "," + z + ")";
-        document.body.style.backgroundColor = bgColor;
+        //document.body.style.backgroundColor = bgColor;
         var message = {accelerometer:{"acc": event.acceleration, "rot": event.rotationRate}};
+        document.getElementById("myP").innerHTML = event.acceleration;
+        document.getElementById("myDIV").innerHTML = event.rotationRate;    
         phone.sendMessage(message);
     }, true);
 
