@@ -19,12 +19,14 @@ simplePeer.createQrCode(
   "https://smartcontrollerjs.github.io/Controllers/joystick.html",
   "qrcode",
   150,
-  150
+  150,
+  1,
+  20
 );
 
 //listen for new connections and add the new player id to the coordinates dictionary staring at 100, 100
 simplePeer.on("connection", function (data) {
-  coordinates[data.peer] = { x: 700, y: 400 }; //data.peer is a peer id of the connected smartphone, used to identify a user and acces the correct coordinates
+  coordinates[data.peer] = { x: 700, y: 300 }; //data.peer is a peer id of the connected smartphone, used to identify a user and acces the correct coordinates
 });
 
 //run an update function to continuously process the data from the phone
@@ -41,7 +43,7 @@ function processData() {
 
     //check if the joystick is being used
     if (joystick.isActive) {
-      console.log(joystick.ping);
+      //console.log(joystick.ping);
       //use the peer id to access the matching coordinate pair and add position change to the current player position
       coordinates[joystick.peer.peer].x += joystick.positionChange.x;
       coordinates[joystick.peer.peer].y += joystick.positionChange.y;
