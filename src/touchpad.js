@@ -46,9 +46,10 @@ function passCoordinates(move_type, coords, phone) {
       coords[i].clientY / canvasElement.height,
     ];
   }
-  phone.sendMessage({
+  var message = {
     state: move_type,
     fingers: coords.length,
     coordinates: coordinates,
-  });
+  };
+  phone.sendMessage(message);
 }

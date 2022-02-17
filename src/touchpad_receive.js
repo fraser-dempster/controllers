@@ -8,7 +8,9 @@ var ctx = canvas.getContext("2d");
 var colours = ["red", "yellow", "green", "blue", "orange"]; // use colours to distinguish between players
 
 //create an instance of TouchpadSmartController, optionally specify a peer ID for the PC browser peer
-const simplePeer = new smartcontroller.TouchPadSmartController();
+const simplePeer = new smartcontroller.TouchPadSmartController({
+  stats: false,
+});
 
 //create and display a QR code for the smartphones, specify url for the controller, div element for the code to be displayed, optionally size and a player ID
 //this url is an official Touchpad compatible with the TouchPadSmartController class
@@ -37,6 +39,7 @@ function processData() {
     i += 1;
     //check if the touchpad is being used
     if (touchpad.isActive) {
+      //console.log(touchpad.messagesPerSecond);
       //iterate over the list of coordinate pairs
       for (var key in touchpad.state) {
         //for each pair scale the coordinates to the browser canvas size and draw a ball

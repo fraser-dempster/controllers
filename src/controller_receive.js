@@ -31,6 +31,7 @@ function processData() {
     //store the controller to access its fields, the dictionary key is 1 because a player ID has been specified, otherwise the peer ID from smartphone will be used
     var controller = simplePeer.controllerList[1];
     var button_id = ["up", "down", "left", "right"];
+    console.log(controller.messagesPerSecond);
     //check if up button is pressed, if yes change the background colour from gray to yellow, then do the same for the remaining arrows
     for (var id of button_id) {
       if (controller.buttons[id]) {

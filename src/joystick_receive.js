@@ -11,7 +11,7 @@ var coordinates = {};
 var colours = ["red", "blue", "yellow", "green"];
 
 //create an instance of JoystickSmartController, optionally specify a peer ID for the PC browser peer
-const simplePeer = new smartcontroller.JoystickSmartController("123456");
+const simplePeer = new smartcontroller.JoystickSmartController();
 
 //create and display a QR code for the smartphones, specify url for the controller, div element for the code to be displayed, optionally size and a player ID
 //this url is an official Joystick compatible with the JoystickSmartController class
@@ -47,6 +47,7 @@ function processData() {
       //use the peer id to access the matching coordinate pair and add position change to the current player position
       coordinates[joystick.peer.peer].x += joystick.positionChange.x;
       coordinates[joystick.peer.peer].y += joystick.positionChange.y;
+      console.log(joystick.messagesPerSecond);
 
       //draw a ball for the new position
       ctx.fillStyle = colours[i];
