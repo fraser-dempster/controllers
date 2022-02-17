@@ -2,6 +2,10 @@ import "smartcontroller";
 
 var phone = new smartcontroller.SmartPhoneController();
 
+if (screen.availHeight > screen.availWidth) {
+  alert("Please use Landscape!");
+}
+
 window.press = function (event, id) {
   event.preventDefault();
   console.log(id);
