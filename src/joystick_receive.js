@@ -11,7 +11,7 @@ var coordinates = {};
 var colours = ["red", "blue", "yellow", "green"];
 
 //create an instance of JoystickSmartController, optionally specify a peer ID for the PC browser peer
-const simplePeer = new smartcontroller.JoystickSmartController();
+const simplePeer = new smartcontroller.JoystickSmartController("1234567");
 
 //create and display a QR code for the smartphones, specify url for the controller, div element for the code to be displayed, optionally size and a player ID
 //this url is an official Joystick compatible with the JoystickSmartController class
