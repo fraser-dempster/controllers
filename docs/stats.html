@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/smartcontroller@3.2.3/dist/smartcontroller.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        body {
+            margin: 0;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+    <div >
+    <div id="qrcode" style = "display: inline-block; padding: 20px; background-color:rgb(245, 96, 96)">
+        <p> User 1 </p>
+        <p id="ping1"> Ping: 0ms </p>
+      </div>
+      <div id="qrcode1" style = "display: inline-block; padding:20px; background-color:rgb(96, 166, 245)">
+        <p> User 2 </p>
+        <p id="ping2"> Ping: 0ms </p>
+      </div>
+      <div id="qrcode2" style = "display: inline-block; padding:20px; background-color:rgb(245, 218, 96)">
+        <p> User 3 </p>
+        <p id="ping3"> Ping: 0ms </p>
+      </div>
+      <div id="qrcode3" style = "display: inline-block; padding:20px; background-color:rgb(163, 245, 96)">
+        <p> User 4 </p>
+        <p id="ping4"> Ping: 0ms </p>
+      </div>
+      </div>
+
+
+
+     <div>
+        <div id='user_message' style = "display: inline-block; padding:20px;"></div>
+        <div id='stats_message' style = "display: inline-block; padding:20px;"></div>
+    </div>
+    </center>
+
+<script>  
+
+    var user_messages = [[0],[0],[0],[0]]
+    var stats_messages = [[0],[0],[0],[0]]
+    var iter_count = []
+    var counter = 0
+    const simplePeer = new smartcontroller.TouchPadSmartController('abcdefg');
+    simplePeer.createQrCode(
+    "https://smartcontrollerjs.github.io/Controllers/joystick.html",
+    "qrcode",
+    150,
+    150,
+    '1'
+    );
+
+    simplePeer.createQrCode(
+    "https://smartcontrollerjs.github.io/Controllers/joystick.html",
+    "qrcode1",
+    150,
+    150,
+    '2'
+    );
+
+    simplePeer.createQrCode(
+    "https://smartcontrollerjs.github.io/Controllers/joystick.html",
+    "qrcode2",
+    150,
+    150,
+    '3'
+    );
+
+    simplePeer.createQrCode(
+    "https://smartcontrollerjs.github.io/Controllers/joystick.html",
+    "qrcode3",
+    150,
+    150,
+    '4'
+    );
+
+    drawGraph();
+    var flag = true
+    simplePeer.on('connection', function(data){
+        if (flag){
+            update()
+            flag = false
+        }
+    });
+
+
+    function update(){
+        iter_count.push(counter);
+        counter = counter + 1;
+        user_no = Object.keys(simplePeer.controllerList).length
+        for (var i of Object.keys(simplePeer.controllerList)){
+            user_messages[i-1] = [simplePeer.controllerList[i].messagesPerSecond]
+            stats_messages[i-1] = [simplePeer.controllerList[i].messageTimesStats.length]
+            document.getElementById("ping" + (i).toString()).innerHTML = 'Ping: ' + simplePeer.controllerList[i].ping.toString() + " ms"
+        }
+        
+        Plotly.extendTraces(user_message, {y: user_messages}, [0, 1, 2, 3])
+        Plotly.extendTraces(stats_message, {y: stats_messages}, [0, 1, 2, 3])
+        requestAnimationFrame(update)
+    }
+
+    function drawGraph(x, y){
+            //user
+            var trace1 = {x: iter_count, y: [y], type: 'scatter', name: 'User 1', line: {color: 'red'}};
+            var trace2 = {x: iter_count, y: [y], type: 'scatter', name: 'User 2', line: { color: 'blue'}};
+            var trace3 = {x: iter_count, y: [y], type: 'scatter', name: 'User 3', line: { color: 'yellow'}};
+            var trace4 = {x: iter_count, y: [y], type: 'scatter', name: 'User 4', line: { color: 'green'}};
+
+            //stats
+            var trace1s = {x: iter_count, y: [y], type: 'scatter', name: 'User 1', line: { color: 'red'}};
+            var trace2s = {x: iter_count, y: [y], type: 'scatter', name: 'User 2', line: { color: 'blue'}};
+            var trace3s = {x: iter_count, y: [y], type: 'scatter', name: 'User 3', line: { color: 'yellow'}};
+            var trace4s = {x: iter_count, y: [y], type: 'scatter', name: 'User 4', line: { color: 'green'}};
+
+
+            var layout = {
+            height: 450,
+            width: 700,
+            title: 'User message rate',
+            xaxis: {
+             title: 'Time steps',
+                 },
+            yaxis: {
+             title: 'Messages per second',
+                }
+                };
+
+            var layout2 = {
+            height: 450,
+            width: 700,
+            title: 'Statistics message rate',
+            xaxis: {
+             title: 'Time steps',
+                 },
+            yaxis: {
+             title: 'Message per second',
+                }
+                };
+
+              Plotly.newPlot('user_message', [trace1, trace2, trace3, trace4], layout);
+              Plotly.newPlot('stats_message',[trace1s, trace2s, trace3s, trace4s], layout2);
+            };
+
+</script>
+</body>
+</html>

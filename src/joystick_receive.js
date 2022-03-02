@@ -21,7 +21,7 @@ simplePeer.createQrCode(
   150,
   150,
   1,
-  20
+  0
 );
 
 //listen for new connections and add the new player id to the coordinates dictionary staring at 100, 100
@@ -47,7 +47,7 @@ function processData() {
       //use the peer id to access the matching coordinate pair and add position change to the current player position
       coordinates[joystick.peer.peer].x += joystick.positionChange.x;
       coordinates[joystick.peer.peer].y += joystick.positionChange.y;
-      console.log(joystick.messagesPerSecond);
+      console.log(joystick.messageTimesStats.length);
 
       //draw a ball for the new position
       ctx.fillStyle = colours[i];
