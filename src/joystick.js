@@ -46,7 +46,7 @@ joystick.on("end", function (evt, data) {
     joystick: {
       position: data.position,
       direction: data.direction,
-      angle: 0,
+      angle: data.angle,
       force: data.force,
       distance: data.distance,
     },
