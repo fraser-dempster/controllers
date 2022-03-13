@@ -37,6 +37,8 @@ joystick.on("move", function (evt, data) {
       angle: data.angle,
       force: data.force,
       distance: data.distance,
+      fadeTime: 0,
+      restJoystick: false,
     },
   };
   phone.sendMessage(message);
