@@ -21,6 +21,7 @@ joystick.on("start", function (evt, data) {
       angle: 0,
       force: data.force,
       distance: data.distance,
+      fadeTime: 0,
     },
   };
   phone.sendMessage(message);
