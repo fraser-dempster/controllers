@@ -22,7 +22,6 @@ joystick.on("start", function (evt, data) {
       force: data.force,
       distance: data.distance,
       fadeTime: 0,
-      restJoystick: false,
     },
   };
   phone.sendMessage(message);
@@ -38,7 +37,6 @@ joystick.on("move", function (evt, data) {
       force: data.force,
       distance: data.distance,
       fadeTime: 0,
-      restJoystick: false,
     },
   };
   phone.sendMessage(message);
